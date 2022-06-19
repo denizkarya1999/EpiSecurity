@@ -1,0 +1,82 @@
+﻿@page "/Entries"
+@page "/"
+@using EpiSecurity.Shared
+@using EpiSecurity.Blazor.Services
+@using Microsoft.AspNetCore.Components;
+@inject IEntryService _entryService
+
+<!-- Title of this page -->
+<PageTitle>Entries</PageTitle>
+
+<!-- Header -->
+<h1>Entries</h1>
+
+<!-- Empty Space -->
+<p></p>
+
+<!-- Navigate to AddEntry page -->
+<NavLink class="nav-link" href="AddEntry">
+    <span class="oi oi-plus" aria-hidden="true"> Add Entry</span>
+</NavLink>
+
+<!-- Navigate to ContactSecurity page -->
+<NavLink class="nav-link" href="ContactSecurity">
+    <span class="oi oi-person" aria-hidden="true"> Contact Security</span>
+</NavLink>
+
+<!-- Part that is responsible for creating and filling the table -->
+<table class="table">
+    <thead>
+        <tr>
+            <th>Entry ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Gender</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Contractor or Employee</th>
+            <th>Customer</th>
+            <th>Blacklisted</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (_entrants is not null)
+        {
+            @foreach (var entrant in _entrants)
+            {
+                <tr>
+                    <td>@entrant.EntryId</td>
+                    <td>@entrant.FirstName</td>
+                    <td>@entrant.LastName</td>
+                    <td>@entrant.Gender</td>
+                    <td>@entrant.Email</td>
+                    <td>@entrant.PhoneNumber</td>
+                    <td>@entrant.IsContractorOrEmployee</td>
+                    <td>@entrant.IsCustomer</td>
+                    <td>@entrant.IsBlackListed</td>
+                    <td>
+                    <a class="nav-link" href="EditEntrant/@entrant.EntryId">
+                        <span class="oi oi-pencil" aria-hidden="true"> Edit</span>
+                    </a>
+                    <a class="nav-link" href="DeleteEntrant/@entrant.EntryId">
+                        <span class="oi oi-trash" aria-hidden="true"> Delete</span>
+                    </a>
+                </td>
+                </tr>
+            }
+        }
+     </tbody>
+</table>
+
+@code {
+    //Create an object for list of entrants
+    private IEnumerable<EntryResponseDTO> _entrants;
+
+    //Method to initialize the list with GetAllPatients Method
+    protected async override Task OnInitializedAsync()
+    {
+        //Display all patients
+        _entrants = await _entryService.DisplayAllEntries();
+    }
+}

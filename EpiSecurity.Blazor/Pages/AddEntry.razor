@@ -1,0 +1,97 @@
+﻿@page "/AddEntry"
+@using EpiSecurity.Shared
+@using EpiSecurity.Blazor.Services
+@using Microsoft.AspNetCore.Components;
+@inject IEntryService _entryService
+@inject NavigationManager NavigationManager
+
+<!-- Title of this page -->
+<PageTitle>Add Entry</PageTitle>
+
+<!-- Header -->
+<h2>Add Entry</h2>
+<hr />
+
+<!-- Part that is responsible for creating the entry -->
+<form>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                <label for="FirstName" class="control-label">First Name</label>
+                <input form="FirstName" class="form-control" @bind="@_entrant.FirstName" />
+            </div>
+            <p></p>
+            <div class="form-group">
+                <label for="LastName" class="control-label">Last Name</label>
+                <input form="LastName" class="form-control" @bind="@_entrant.LastName" />
+            </div>
+            <p></p>
+            <div class="form-group">
+                <label for="Gender" class="control-label">Gender</label>
+                <select form="Gender" class="form-control" @bind="@_entrant.Gender">
+                    <option value="Select Gender...">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Non-Binary">Non-Binary</option>
+                    <option value="Transgender">Transgender</option>
+                    <option value="Intersex">Intersex</option>
+                    <option value="Other">Other</option>
+                    <option value="I prefer not to say">I prefer not to say</option>
+                </select>
+            </div>
+            <p></p>
+            <div class="form-group">
+                <label for="Email" class="control-label">Email</label>
+                <input form="Email" class="form-control" @bind="@_entrant.Email" />
+            </div>
+            <p></p>
+            <div class="form-group">
+                <label for="PhoneNumber" class="control-label">Phone Number</label>
+                <input form="PhoneNumber" class="form-control" @bind="@_entrant.PhoneNumber" />
+            </div>
+            <p></p>
+            <div class="form-group">
+                <input type="checkbox" id="html" name="employment_or_not" @bind="@_entrant.IsContractorOrEmployee">
+                <label for="true">Entrant is an employee or contractor</label>
+            </div>
+            <p></p>
+            <div class="form-group">
+                <input type="checkbox" id="html" name="customer_or_not" @bind="@_entrant.IsCustomer">
+                <label for="true">Entrant is a customer</label>
+            </div>
+            <p></p>
+            <div class="form-group">
+                <input type="checkbox" id="html" name="blacklisted_or_not" @bind="@_entrant.IsBlackListed">
+                <label for="true">Entrant is blacklisted</label>
+            </div>
+            <p></p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <input type="button" class="btn btn-primary" @onclick="@CreateEntry" value="Save" />
+                <input type="button" class="btn btn-primary" @onclick="@Cancel" value="Cancel" />
+            </div>
+        </div>
+    </div>
+</form>
+
+@code {
+    //Create an object for list of entrants
+    EntryResponseDTO _entrant = new EntryResponseDTO();
+
+    //This part of the code is responsible for creating the entry
+    protected async void CreateEntry()
+    {
+        await _entryService.CreateEntry(_entrant);
+        NavigationManager.NavigateTo("Entries");
+    }
+
+    //This part will navigate to Entries page
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("Entries");
+    }
+}

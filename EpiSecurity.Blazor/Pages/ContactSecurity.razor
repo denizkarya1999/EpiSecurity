@@ -1,0 +1,65 @@
+﻿@page "/ContactSecurity"
+@inject NavigationManager NavigationManager
+
+<!-- Title of this page -->
+<PageTitle>Contact Security</PageTitle>
+
+<!-- Header -->
+<h2>Contact Security</h2>
+<hr />
+
+<!-- Local Police Info -->
+<h4><strong>Southfield Police Department</strong></h4>
+<h5><strong>Address: </strong>26000 Evergreen Rd, Southfield, MI 48076</h5>
+<h5><strong>Emergency Number: </strong>911</h5>
+<h5><strong>Phone: </strong>(248) 796-5500</h5>
+<p></p>
+<p></p>
+
+<!-- Local Sherrif Info -->
+<h4><strong>Wayne County Sherrif`s Office</strong></h4>
+<h5><strong>Address: </strong>Wayne County Sheriffs Office 4747 Woodward Avenue Detroit, MI 48201</h5>
+<h5><strong>Phone: </strong>(313) 833-0864</h5>
+<h5><strong>Fax: </strong>(313) 224-2367</h5>
+<h5><strong>Email: </strong>info@sherrifconnect.com</h5>
+<p></p>
+<p></p>
+
+<!-- Local Court Info -->
+<h4><strong>United States District Court for the Eastern District of Michigan</strong></h4>
+<h5><strong>Address: </strong>Clerk's Office
+Theodore Levin U.S. Courthouse
+231 W. Lafayette Blvd., Room 599
+Detroit, MI 48226</h5>
+<h5><strong>Phone: </strong>(313) 234-5000</h5>
+
+<!-- Local ICE Info -->
+<h4><strong>U.S. Immigration and Customs Enforcement Detroit Field Office</strong></h4>
+<h5><strong>Address: </strong>333 Mt. Elliott St Detroit, MI 48207</h5>
+<h5><strong>Phone: </strong>(313) 568-6049</h5>
+<p></p>
+<p></p>
+
+<!-- Local DHS Info -->
+<h4><strong>U.S. Department of Homeland Security Detroit Field Office</strong></h4>
+<h5><strong>Address: </strong>477 Michigan Ave, Detroit, MI 48226</h5>
+<h5><strong>Phone: </strong>(866) 347-2423</h5>
+<p></p>
+<p></p>
+
+<form>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <input type="button" class="btn btn-primary" @onclick="@Cancel" value="Back" />
+            </div>
+        </div>
+    </div>
+</form>
+@code {
+        //This part will navigate to Entries page
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("Entries");
+    }
+}

@@ -1,0 +1,109 @@
+﻿@page "/EditEntrant/{Id:guid}"
+@using EpiSecurity.Shared
+@using EpiSecurity.Blazor.Services
+@using Microsoft.AspNetCore.Components;
+@inject IEntryService _entryService
+@inject NavigationManager NavigationManager
+
+<!-- Title of this page -->
+<PageTitle>Edit Entrant</PageTitle>
+
+<!-- Header -->
+<h2>Edit Entrant</h2>
+<hr />
+
+<!-- Part that is responsible for editing the entrant-->
+<form>
+    <div class="row">
+        <div class="form-group">
+            <label for="Id" class="control-label">Entrant Id</label>
+            <input form="Id" class="form-control" @bind="@_entrant.EntryId" />
+        </div>
+        <p></p>
+        <div class="form-group">
+            <label for="FirstName" class="control-label">First Name</label>
+            <input form="FirstName" class="form-control" @bind="@_entrant.FirstName" />
+        </div>
+        <p></p>
+        <div class="form-group">
+            <label for="LastName" class="control-label">Last Name</label>
+            <input form="LastName" class="form-control" @bind="@_entrant.LastName" />
+        </div>
+        <p></p>
+        <div class="form-group">
+            <label for="Gender" class="control-label">Gender</label>
+            <select form="Gender" class="form-control" @bind="@_entrant.Gender">
+                    <option value="Select Gender...">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Non-Binary">Non-Binary</option>
+                    <option value="Transgender">Transgender</option>
+                    <option value="Intersex">Intersex</option>
+                    <option value="Other">Other</option>
+                    <option value="I prefer not to say">I prefer not to say</option>
+            </select>
+        </div>
+        <p></p>
+        <div class="form-group">
+            <label for="Email" class="control-label">Email</label>
+            <input form="Email" class="form-control" @bind="@_entrant.Email" />
+        </div>
+        <p></p>
+        <div class="form-group">
+            <label for="PhoneNumber" class="control-label">Phone Number</label>
+            <input form="PhoneNumber" class="form-control" @bind="@_entrant.PhoneNumber" />
+        </div>
+        <p></p>
+        <div class="form-group">
+            <input type="checkbox" id="html" name="is_contractor" @bind="@_entrant.IsContractorOrEmployee">
+            <label for="true">Entrant is an employee or contractor</label>
+        </div>
+        <p></p>
+        <div class="form-group">
+            <input type="checkbox" id="html" name="is_customer" @bind="@_entrant.IsCustomer">
+            <label for="true">Entrant is a customer</label>
+        </div>
+        <p></p>
+        <div class="form-group">
+            <input type="checkbox" id="html" name="is_blacklisted" @bind="@_entrant.IsBlackListed">
+            <label for="true">Entrant is blacklisted</label>
+        </div>
+        <p></p>
+        <div class="col-md-4">
+            <div class="form-group">
+                <input type="button" class="btn btn-primary" @onclick="@UpdateEntrant" value="Update" />
+                &nbsp;&nbsp;&nbsp;
+                <input type="button" class="btn btn-primary" @onclick="@Cancel" value="Cancel" />
+            </div>
+        </div>
+    </div>
+</form>
+
+@code {
+    //Parameter for Id
+    [Parameter]
+    public Guid Id { get; set; }
+
+    //Create an object for list of entrants
+    EntryResponseDTO _entrant = new EntryResponseDTO();
+
+    //This part is responsible for updating the patient
+    protected async void UpdateEntrant()
+    {
+        await _entryService.UpdateEntry(_entrant);
+        NavigationManager.NavigateTo("Entries");
+    }
+
+    //Method to initialize the entrant
+    protected override async Task OnInitializedAsync()
+    {
+        //Display the patient
+        _entrant = await _entryService.DisplayEntryDetails(Id);
+    }
+
+    //This part will navigate to Entries page
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("Entries");
+    }
+}
